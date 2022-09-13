@@ -5,57 +5,28 @@
  */
 
 
-const oldTweets = [
-  {
-    "user": {
-      "name": "Newton",
-      "avatars": "https://i.imgur.com/73hZDYK.png",
-      "handle": "@SirIsaac"
-    },
-    "content": {
-      "text": "If I have seen further it is by standing on the shoulders of giants"
-    },
-    "created_at": 1663526962730
-  },
-  {
-    "user": {
-      "name": "Descartes",
-      "avatars": "https://i.imgur.com/nlhLi3I.png",
-      "handle": "@rd"
-    },
-    "content": {
-      "text": "Je pense , donc je suis"
-    },
-    "created_at": 1663613362730
-  }
-]
-
 $(document).ready(() => {
-  tweetRender(oldTweets);
+  loadTweets();
+  formSubmission();
 });
 
-const tweetRender = (tweets) => {
-  for (const tweet of tweets) {
-    const $tweet = TweetCreater(tweet);
-    $('#tweets-container').append($tweet);
-  }
+const loadTweets = () => {
+  $.ajax('/tweets', { 
+    method: 'GET',
+  })
+  .done(function(response) {
+    $('#tweets-container').empty(); 
+    tweetRender(response);
+  })
 };
 
-FormattedDate = (jsonDate) => {
-  var d = new Date(jsonDate);
-  var formattedDate = d.getDate() + "-" + (d.getMonth() + 1) + "-" + d.getFullYear();
-  var hours = (d.getHours() < 10) ? "0" + d.getHours() : d.getHours();
-  var minutes = (d.getMinutes() < 10) ? "0" + d.getMinutes() : d.getMinutes();
-  var formattedTime = hours + ":" + minutes;
-  
-  return formattedDate = formattedDate + " " + formattedTime;
-};
-  
-
-const TweetCreater = (tweet) => {
+const tweetCreater = (tweet) => {
   const user = tweet.user;
   const content = tweet.content;
-  const htmlStructure = `
+  const timeSince = timeago.format(tweet.created_at);
+
+  const tweetTemplate = 
+  `
   <article class="tweet">
   <header>
     <span class="avatar"><img src=${user.avatars}>
@@ -66,7 +37,7 @@ const TweetCreater = (tweet) => {
     <p class="tweet-content-text">${content.text}</p>
   </div>
   <footer>
-    <div class="time">${FormattedDate(tweet.created_at)}</div>
+    <div class="time">${timeSince}</div>
     <div class="icons">
       <span><i class="fa-solid fa-flag"></i>&nbsp</span>
       <span><i class="fa-solid fa-retweet"></i>&nbsp</span>
@@ -77,6 +48,39 @@ const TweetCreater = (tweet) => {
   <br/>
   `;
 
-  return htmlStructure;
+  return tweetTemplate;
 };
-console.log($tweet);
+
+const tweetRender = (tweets) => {
+  tweets.reverse();
+  for (const tweet of tweets) {
+    const $tweet = tweetCreater(tweet);
+    $('#tweets-container').append($tweet);
+  }
+};
+
+const formSubmission = () => { 
+  const $form = $('#tweet-form');
+  $form.submit(function(event) {
+    event.preventDefault();
+    
+    const $tweetInput = $('#tweet-text');
+    if (!$tweetInput.val()) { 
+      alert("You can't send a blank tweet!");
+    } else if ($tweetInput.val().length > 140) {
+      alert("Too many characters in tweet!");
+    } else {
+      $.ajax('/tweets', { 
+        method: 'POST',
+        data: $(this).serialize(),
+      })
+      .done(() => {
+        loadTweets(); 
+      })
+    }
+
+  $('#tweet-text').val(''); 
+  $('.counter').val(140).css('color', '#545149'); 
+  });
+};
+
