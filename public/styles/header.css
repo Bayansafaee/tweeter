@@ -1,26 +1,26 @@
 /* Avatar and header */
-.user-profile {
-  height: 320px;
-  width: 100%;
-  top: 100px;
-  position: relative;
-  background-color: #001933;
-  background-image: url("https://www.transparenttextures.com/patterns/black-twill.png");
+
+header {
   display: flex;
+  height: 510px;
+  width: 100%;
+  justify-content: flex-end;
   align-items: center;
-  justify-content: center;
   flex-direction: column;
+  background-color: #001933;
+  color: #FFFFFF;
+  background-image: url("https://www.transparenttextures.com/patterns/black-twill.png");
 }
 
-/* NAME */ 
-.user-profile h2 {
-  margin-top: 0;
-  display: inline-block;
-  text-align: center;
-  color: white;
-  width: 256px;
-}
-
-.user-profile span {
-  font-weight: lighter;
+/* Desktop layout */
+@media only screen and (min-width: 1024px) {
+  header {
+    display: flex;
+    width: 35%;
+    height: 20em;
+    float: left;
+    flex-direction: column;
+    margin-left: 50px;
+    margin-top: 220px;
+  }
 }

@@ -28,6 +28,29 @@ nav {
 .write-tweet i {
   display: flex;
   justify-content: center;
-  margin-top: 0.30em;
-  color: red;
+  padding-top: 0.25em;
+  padding-bottom: 1em;
+  color: #FFFFFF;
+}
+
+.write-tweet i:hover {
+  color:red;
+  font-size: larger;
+  
+}
+
+.write-tweet i:active {
+  font-size: 24px;
+}
+
+/* Mobile Layout */
+@media only screen and (max-width: 624px) {
+
+  .write-tweet div {
+    display: none;
+  }
+  
+  .write-tweet i {
+    font-size: 2rem;
+  }
 }

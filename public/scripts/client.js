@@ -60,6 +60,10 @@ const tweetRender = (tweets) => {
 };
 
 const formSubmission = () => { 
+  const $pointer = $('nav i');
+  $pointer.on('click', function() {
+    $('textarea').focus(); 
+  });
   const $form = $('#tweet-form');
   $form.submit(function(event) {
     event.preventDefault();
@@ -83,4 +87,5 @@ const formSubmission = () => {
   $('.counter').val(140).css('color', '#545149'); 
   });
 };
+
 

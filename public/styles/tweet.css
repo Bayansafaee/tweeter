@@ -17,6 +17,8 @@ article.tweet header {
   flex-direction: row;
   justify-content: space-between;
   background: none;
+  color: #545149;
+  font-weight: bold;
   padding-left: 1em;
   padding-right: 1em;
   padding-top: 1em;
@@ -29,7 +31,7 @@ article.tweet header span {
 
 article.tweet header .username {
   font-weight: bold;
-  color: #b9b9b9;
+  color: #001933;
   font-size: 85%;
 }
 
@@ -73,3 +75,16 @@ article.tweet footer .icons span:hover {
   color: #e5880e;
 }
 
+/* Desktop layout */
+@media only screen and (min-width: 1024px) {
+  article.tweet {
+    width: 100%;
+  }
+  article.tweet header {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    margin: 0;
+    margin-right: 50px;
+  }
+}
